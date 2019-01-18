@@ -1,0 +1,8 @@
+Projector 0.1.1 (in dev)
+---------------------------
+- Base class of all entities - now is abstract;
+- Id's of entity generated in ctor;
+- Added new entity type - DrawableEntity. You can create a transparent entity, or entity with sprite.
+  Every DrawableEntity can draw bounds. Whatever if you not set a sprite - bounds show.
+- All drawable entities draw in update-method in level;
+- All .cpp files marked for PVS Studio as open source non-commercial project.
