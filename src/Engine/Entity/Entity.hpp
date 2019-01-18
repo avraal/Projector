@@ -1,6 +1,3 @@
-// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
-
 //
 // Created by andrew on 17.01.19.
 //
@@ -8,20 +5,31 @@
 #ifndef PROJECTOR_ENTITY_HPP
 #define PROJECTOR_ENTITY_HPP
 
-#include "Utils/CONST_DEFINITIONS.hpp"
+#include "../Utils/CONST_DEFINITIONS.hpp"
 #include <string>
-#include <memory>
+#include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
 
 class Entity
 {
 protected:
+    friend class Level;
+
     const ul_int id;
     std::string name;
 
-    Entity(ul_int, const std::string &name);
-    virtual ~Entity();
-public:
+    static ul_int getNextId();
+    static ul_int currentId;
 
+public:
+    Entity(const std::string &name);
+    Entity() = delete;
+    virtual ~Entity();
+
+    virtual void prepare() = 0;
+    virtual void update() = 0;
+    virtual void exitProcess() = 0;
 };
 
 #endif //PROJECTOR_ENTITY_HPP

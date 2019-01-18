@@ -1,6 +1,3 @@
-// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
-
 //
 // Created by andrew on 15.01.19.
 //
@@ -16,10 +13,11 @@ class ProjectorMessage
 public:
     enum class Type
     {
-        MESSAGE = 0,
-        DEBUG = 1,
-        WARNING = 2,
-        ERROR = 3
+        ALL = 0,
+        MESSAGE = 1,
+        DEBUG = 2,
+        WARNING = 3,
+        ERROR = 4
     };
 
 private:

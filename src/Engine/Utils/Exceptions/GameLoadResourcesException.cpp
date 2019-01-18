@@ -5,11 +5,11 @@
 // Created by andrew on 15.01.19.
 //
 
-#include "GameLoadException.hpp"
-const char *GameLoadException::what() const throw()
+#include "GameLoadResourcesException.hpp"
+const char *GameLoadResourcesException::what() const throw()
 {
     return message.c_str();
 }
-GameLoadException::GameLoadException(const std::string &message) : message{message}
+GameLoadResourcesException::GameLoadResourcesException(const std::string &message) : message{message}
 {
 }

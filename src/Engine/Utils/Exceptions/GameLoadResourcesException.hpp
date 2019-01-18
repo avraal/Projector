@@ -8,14 +8,14 @@
 #include <exception>
 #include <string>
 
-class GameLoadException : public std::exception
+class GameLoadResourcesException : public std::exception
 {
 private:
     std::string message;
 public:
-    GameLoadException(const std::string &message);
+    GameLoadResourcesException(const std::string &message);
     virtual const char *what() const throw() override;
-    virtual ~GameLoadException() {}
+    virtual ~GameLoadResourcesException() {}
 };
 
 #endif //PROJECTOR_GAMELOADEXCEPTION_HPP

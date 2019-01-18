@@ -1,9 +1,9 @@
-// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 
 #include <iostream>
 #include "Game/Game.hpp"
-#include "Engine/Utils/Exceptions/GameLoadException.hpp"
+#include "Engine/Utils/Exceptions/GameLoadResourcesException.hpp"
 #include "Engine/Utils/Exceptions/GameRuntimeException.hpp"
 int main()
 {
@@ -14,7 +14,7 @@ int main()
     {
         game->prepare();
         game->run();
-    } catch (const GameLoadException &ex)
+    } catch (const GameLoadResourcesException &ex)
     {
         logManager->logging(ProjectorMessage(ex.what(), ProjectorMessage::Type::ERROR));
     } catch (const GameRuntimeException &ex)

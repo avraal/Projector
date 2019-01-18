@@ -1,3 +1,6 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
+
 //
 // Created by andrew on 15.01.19.
 //
@@ -5,7 +8,7 @@
 #include "Game.hpp"
 #include <SFML/Window/Event.hpp>
 #include "../Engine/Utils/getClassName.hpp"
-#include "../Engine/Utils/Exceptions/GameLoadException.hpp"
+#include "../Engine/Utils/Exceptions/GameLoadResourcesException.hpp"
 #include "../Engine/Utils/Exceptions/GameRuntimeException.hpp"
 #include "TestLevel.hpp"
 Game::Game(const std::string &title) : title{title}
@@ -32,7 +35,7 @@ void Game::run()
 
     window.create(sf::VideoMode(gameSettings->windowWidth, gameSettings->windowHeight), title);
     mainCamera = window.getView();
-    mainCamera.setCenter(gameSettings->windowWidth / 4, gameSettings->windowHeight / 4);
+    mainCamera.setCenter(gameSettings->windowWidth / 2, gameSettings->windowHeight / 2);
 
     window.setKeyRepeatEnabled(true);
     window.setVerticalSyncEnabled(gameSettings->useVSync);
@@ -63,12 +66,15 @@ void Game::run()
                 currentLevel->guiCallbacks(event);
             }
             window.setView(mainCamera);
-            window.display();
             currentLevel->update(window);
+            window.display();
         } catch (const GameRuntimeException &ex)
         {
             logManager->logging(ProjectorMessage(ex.what(), ProjectorMessage::Type::ERROR));
             gameCanRun = false;
+        } catch (const GameLoadResourcesException &ex)
+        {
+            logManager->logging(ProjectorMessage(ex.what(), ProjectorMessage::Type::ERROR));
         }
     }
 

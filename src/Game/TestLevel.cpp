@@ -1,5 +1,5 @@
-// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 
 //
 // Created by andrew on 17.01.19.
@@ -7,9 +7,13 @@
 
 #include <SFML/Window/Event.hpp>
 #include "TestLevel.hpp"
+#include "../Engine/Utils/Exceptions/GameRuntimeException.hpp"
 TestLevel::TestLevel(const std::string &name) : Level(name)
 {
     backgroundColor = sf::Color(42, 76, 61);
+    auto entity = CreateEntity<DrawableEntity>("test");
+    Entities.push_back(entity);
+    DrawableEntities.push_back(entity);
 }
 TestLevel::~TestLevel()
 {
@@ -41,6 +45,22 @@ void TestLevel::keyboardCallbacks(sf::RenderWindow &window, sf::Event &event)
             {
                 logManager->logging(ProjectorMessage("Last fps: " + std::to_string(fps), ProjectorMessage::Type::DEBUG));
                 window.close();
+                break;
+            }
+            case sf::Keyboard::R:
+            {
+                for (auto d : DrawableEntities)
+                {
+                    d->rotate(45.f);
+                }
+                break;
+            }
+            case sf::Keyboard::Space:
+            {
+                for (auto d : DrawableEntities)
+                {
+                    d->toggleCanShowBounds();
+                }
                 break;
             }
         }

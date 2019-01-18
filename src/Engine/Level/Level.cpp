@@ -1,5 +1,5 @@
-// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 
 //
 // Created by andrew on 17.01.19.
@@ -26,10 +26,24 @@ void Level::update(sf::RenderWindow &window)
 {
     float currentTime = clock.restart().asSeconds();
     fps = 1.f / currentTime;
+    for (auto e : Entities)
+    {
+        e->update();
+    }
+
+    for (auto e : DrawableEntities)
+    {
+        window.draw(*e);
+    }
 }
 void Level::prepare()
 {
     logManager->logging(ProjectorMessage("load level " + name, ProjectorMessage::Type::DEBUG));
+    for (auto e : Entities)
+    {
+        e->prepare();
+    }
+
 }
 void Level::exitProcess()
 {

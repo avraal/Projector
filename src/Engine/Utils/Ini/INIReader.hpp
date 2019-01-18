@@ -1,6 +1,3 @@
-// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
-
 // Read an INI file into easy-to-access name/value pairs.
 
 // inih and INIReader are released under the New BSD license (see LICENSE.txt).
@@ -8,9 +5,6 @@
 //
 // https://github.com/benhoyt/inih
 
-//
-// Created by andrew on 17.01.19.
-//
 
 #ifndef PROJECTOR_INIREADER_HPP
 #define PROJECTOR_INIREADER_HPP

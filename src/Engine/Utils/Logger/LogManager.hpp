@@ -1,6 +1,3 @@
-// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
-
 //
 // Created by andrew on 15.01.19.
 //
@@ -22,8 +19,8 @@ public:
     explicit LogManager(const std::string &sourceName);
     LogManager() = delete;
 
-    void showLog();
-    void showLogByType(const ProjectorMessage::Type &type);
+    void showLog(const ProjectorMessage::Type &type = ProjectorMessage::Type::ALL);
+//    void showLogByType(const ProjectorMessage::Type &type);
     void logging(ProjectorMessage message);
 };
 

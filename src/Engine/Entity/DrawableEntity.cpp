@@ -5,12 +5,70 @@
 // Created by andrew on 18.01.19.
 //
 
-#include "DrawableEntiy.hpp"
-DrawableEntiy::~DrawableEntiy()
+#include <iostream>
+#include <SFML/Graphics/VertexArray.hpp>
+#include <SFML/Graphics/Shape.hpp>
+#include <SFML/Graphics/CircleShape.hpp>
+#include <SFML/Graphics/RenderTexture.hpp>
+#include "DrawableEntity.hpp"
+#include "../Utils/Exceptions/GameLoadResourcesException.hpp"
+DrawableEntity::~DrawableEntity()
 {
 
 }
-void DrawableEntiy::draw(sf::RenderTarget &target, sf::RenderStates states) const
+DrawableEntity::DrawableEntity(const std::string &name) : Entity(name)
+{
+    canShowBounds = false;
+}
+void DrawableEntity::prepare()
+{
+    if (!texture.loadFromFile("Resources/1.png"))
+    {
+        sf::RenderTexture newTexture;
+        newTexture.create(16, 16);
+        newTexture.clear(sf::Color::Transparent);
+        texture = newTexture.getTexture();
+    }
+
+    sprite.setTexture(texture);
+    std::cout << name + " is prepared" << std::endl;
+
+    setPosition({100.f, 100.f});
+}
+void DrawableEntity::update()
+{
+}
+void DrawableEntity::exitProcess()
 {
 
+}
+void DrawableEntity::draw(sf::RenderTarget &target, sf::RenderStates states) const
+{
+    target.draw(sprite, getTransform());
+    if (canShowBounds)
+    {
+        target.draw(rect, getTransform());
+    }
+}
+void DrawableEntity::initBounds()
+{
+    sf::FloatRect boundingBox = sprite.getGlobalBounds();
+
+    rect.setSize({boundingBox.height, boundingBox.width});
+    rect.setFillColor(sf::Color::Transparent);
+    rect.setOutlineThickness(2.2f);
+    rect.setOutlineColor(sf::Color::Red);
+}
+void DrawableEntity::toggleCanShowBounds()
+{
+    setCanShowBounds(!canShowBounds);
+}
+bool DrawableEntity::isCanShowBounds() const
+{
+    return canShowBounds;
+}
+void DrawableEntity::setCanShowBounds(bool canShowBounds)
+{
+    this->canShowBounds = canShowBounds;
+    initBounds();
 }

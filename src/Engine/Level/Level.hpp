@@ -1,6 +1,3 @@
-// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
-
 //
 // Created by andrew on 17.01.19.
 //
@@ -16,6 +13,7 @@
 #include <memory>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include "../Utils/Logger/LogManager.hpp"
+#include "../Entity/DrawableEntity.hpp"
 
 class Level
 {
@@ -25,6 +23,16 @@ protected:
     sf::Color backgroundColor;
 
     std::unique_ptr<LogManager> logManager;
+
+    std::vector<std::shared_ptr<Entity>> Entities;
+    std::vector<std::shared_ptr<DrawableEntity>> DrawableEntities;
+
+    template <typename T>
+    static std::shared_ptr<T> CreateEntity(const std::string &name)
+    {
+        auto entity = std::make_shared<T>(name);
+        return entity;
+    }
 
 public:
     Level() = delete;
