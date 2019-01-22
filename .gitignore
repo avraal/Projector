@@ -1,9 +1,4 @@
-*.cmake
-Makefile
-*.cbp
-CMakeCache.txt
-strace_out
-CMakeFiles/
 .idea/
 cmake-build-debug/
 !cmake-build-debug/Resources/
+strace_out
