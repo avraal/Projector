@@ -2,6 +2,8 @@
 Makefile
 *.cbp
 CMakeCache.txt
+strace_out
 CMakeFiles/
 .idea/
-Projector
+cmake-build-debug/
+!cmake-build-debug/Resources/
