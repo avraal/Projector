@@ -16,9 +16,10 @@ DrawableEntity::~DrawableEntity()
 {
 
 }
-DrawableEntity::DrawableEntity(const std::string &name) : Entity(name)
+DrawableEntity::DrawableEntity(std::string name) : Entity(name)
 {
     canShowBounds = false;
+    canRenderer = true;
 }
 void DrawableEntity::prepare()
 {
@@ -31,7 +32,6 @@ void DrawableEntity::prepare()
     }
 
     sprite.setTexture(texture);
-    std::cout << name + " is prepared" << std::endl;
 
     setPosition({100.f, 100.f});
 }
@@ -44,10 +44,13 @@ void DrawableEntity::exitProcess()
 }
 void DrawableEntity::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-    target.draw(sprite, getTransform());
-    if (canShowBounds)
+    if (canRenderer)
     {
-        target.draw(rect, getTransform());
+        target.draw(sprite, getTransform());
+        if (canShowBounds)
+        {
+            target.draw(rect, getTransform());
+        }
     }
 }
 void DrawableEntity::initBounds()
@@ -71,4 +74,8 @@ void DrawableEntity::setCanShowBounds(bool canShowBounds)
 {
     this->canShowBounds = canShowBounds;
     initBounds();
+}
+const sf::FloatRect DrawableEntity::getBoundingBox() const
+{
+    return sprite.getGlobalBounds();
 }

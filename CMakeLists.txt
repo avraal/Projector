@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.13)
 project(Projector)
 
 set(CMAKE_CXX_STANDARD 17)
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
 
 # ToDo: add detecting OS
 # ToDo: add settings for Windows
@@ -23,6 +23,7 @@ add_executable(Projector
         src/Game/TestLevel.cpp
         src/Engine/Entity/Entity.cpp
         src/Engine/Entity/DrawableEntity.cpp
+        src/Game/Daedalus.cpp
         )
 
-target_link_libraries(Projector -lsfml-graphics -lsfml-window -lsfml-system)
+target_link_libraries(Projector -lsfml-graphics -lsfml-window -lsfml-system -ltgui)

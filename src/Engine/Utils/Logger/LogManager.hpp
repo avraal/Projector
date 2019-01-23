@@ -20,8 +20,9 @@ public:
     LogManager() = delete;
 
     void showLog(const ProjectorMessage::Type &type = ProjectorMessage::Type::ALL);
-//    void showLogByType(const ProjectorMessage::Type &type);
     void logging(ProjectorMessage message);
+
+    static bool canPrintInTerminal;
 };
 
 #endif //PROJECTOR_LOGERMANAGER_HPP

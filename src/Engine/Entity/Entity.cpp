@@ -11,9 +11,9 @@
 
 ul_int Entity::currentId = 0;
 
-Entity::Entity(const std::string &name) : id{getNextId()}, name{name}
+Entity::Entity(std::string name) : name{name}
 {
-
+    id = getNextId();
 }
 Entity::~Entity()
 {
@@ -22,4 +22,16 @@ Entity::~Entity()
 ul_int Entity::getNextId()
 {
     return currentId++;
+}
+ul_int Entity::getId() const
+{
+    return id;
+}
+const std::string &Entity::getName() const
+{
+    return name;
+}
+void Entity::setName(const std::string &name)
+{
+    this->name = name;
 }

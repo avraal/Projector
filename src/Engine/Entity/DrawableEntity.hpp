@@ -20,10 +20,11 @@ protected:
     sf::RectangleShape rect;
     sf::Vector2f position;
     bool canShowBounds;
+    bool canRenderer;
 
     void initBounds();
 public:
-    DrawableEntity(const std::string &name);
+    DrawableEntity(std::string name = "");
     virtual ~DrawableEntity() override;
     virtual void prepare() override;
     virtual void update() override;
@@ -33,6 +34,7 @@ public:
     void setCanShowBounds(bool canShowBounds);
 
     bool isCanShowBounds() const;
+    const sf::FloatRect getBoundingBox() const;
 };
 
 #endif //PROJECTOR_DRAWABLEENTIY_HPP

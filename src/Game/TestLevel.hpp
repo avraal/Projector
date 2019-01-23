@@ -19,6 +19,8 @@ public:
     virtual void mouseCallbacks(sf::RenderWindow &window, sf::Event &event) override;
     virtual void keyboardCallbacks(sf::RenderWindow &window, sf::Event &event) override;
     virtual void guiCallbacks(sf::Event &event) override;
+protected:
+    virtual void readSettings(const std::string &fileName) override;
 };
 
 #endif //PROJECTOR_TESTLEVEL_HPP

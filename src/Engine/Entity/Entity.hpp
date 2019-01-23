@@ -16,16 +16,21 @@ class Entity
 protected:
     friend class Level;
 
-    const ul_int id;
+    ul_int id;
     std::string name;
 
     static ul_int getNextId();
     static ul_int currentId;
 
 public:
-    Entity(const std::string &name);
+    Entity(std::string name = "");
     Entity() = delete;
     virtual ~Entity();
+
+    ul_int getId() const;
+    const std::string &getName() const;
+
+    void setName(const std::string &name);
 
     virtual void prepare() = 0;
     virtual void update() = 0;

@@ -10,10 +10,6 @@
 #include "../Engine/Utils/Exceptions/GameRuntimeException.hpp"
 TestLevel::TestLevel(const std::string &name) : Level(name)
 {
-    backgroundColor = sf::Color(42, 76, 61);
-    auto entity = CreateEntity<DrawableEntity>("test");
-    Entities.push_back(entity);
-    DrawableEntities.push_back(entity);
 }
 TestLevel::~TestLevel()
 {
@@ -25,6 +21,7 @@ void TestLevel::update(sf::RenderWindow &window)
 }
 void TestLevel::prepare()
 {
+    addObject(std::__cxx11::string(), sf::Vector2f());
     Level::prepare();
 }
 void TestLevel::exitProcess()
@@ -67,6 +64,10 @@ void TestLevel::keyboardCallbacks(sf::RenderWindow &window, sf::Event &event)
     }
 }
 void TestLevel::guiCallbacks(sf::Event &event)
+{
+    Level::guiCallbacks(event);
+}
+void TestLevel::readSettings(const std::string &fileName)
 {
 
 }

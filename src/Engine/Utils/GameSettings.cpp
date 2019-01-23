@@ -13,7 +13,7 @@
 
 void GameSettings::loadSettings(const std::string &fileName)
 {
-    std::unique_ptr<INIReader> reader = std::make_unique<INIReader>(fileName);
+    auto reader = std::make_unique<INIReader>(fileName);
     if (reader->ParseError() < 0)
     {
         throw GameLoadResourcesException(fileName + " not found");

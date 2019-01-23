@@ -6,6 +6,9 @@
 //
 
 #include "LogManager.hpp"
+
+bool LogManager::canPrintInTerminal = true;
+
 LogManager::LogManager(const std::string &sourceName) : sourceName{sourceName}
 {
 
@@ -26,19 +29,11 @@ void LogManager::showLog(const ProjectorMessage::Type &type)
         }
     }
 }
-//void LogManager::showLogByType(const ProjectorMessage::Type &type)
-//{
-//    for (const auto &l : log)
-//    {
-//        if (l.type == type)
-//        {
-//            std::cout << sourceName + '/';
-//            std::cout << l << std::endl;
-//        }
-//    }
-//}
 void LogManager::logging(ProjectorMessage message)
 {
     log.push_back(message);
-//    std::cout << sourceName << '/' << message << std::endl;
+    if (LogManager::canPrintInTerminal)
+    {
+        std::cout << sourceName << '/' << message << std::endl;
+    }
 }

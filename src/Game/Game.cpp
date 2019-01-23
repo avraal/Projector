@@ -11,6 +11,7 @@
 #include "../Engine/Utils/Exceptions/GameLoadResourcesException.hpp"
 #include "../Engine/Utils/Exceptions/GameRuntimeException.hpp"
 #include "TestLevel.hpp"
+#include "Daedalus.hpp"
 Game::Game(const std::string &title) : title{title}
 {
     logManager = std::make_unique<LogManager>(getClassName<Game>());
@@ -25,9 +26,11 @@ void Game::prepare()
     logManager->logging(ProjectorMessage("load settings from " + fileName, ProjectorMessage::Type::DEBUG));
     gameSettings->loadSettings(fileName);
 
-    std::shared_ptr<TestLevel> testLevel = std::make_shared<TestLevel>("TestLevel");
-    testLevel->prepare();
+    auto testLevel = std::make_shared<TestLevel>("TestLevel");
+    auto daedalus = std::make_shared<Daedalus>("Daedalus");
     levelManager->registerLevel(testLevel);
+    levelManager->registerLevel(daedalus);
+    daedalus->prepare();
 }
 void Game::run()
 {
@@ -43,8 +46,9 @@ void Game::run()
     {
         window.setFramerateLimit(gameSettings->maxFPS);
     }
-
-    currentLevel = levelManager->loadLevel("TestLevel");
+    currentLevel = levelManager->loadLevel("Daedalus");
+    currentLevel->initGui(window);
+    currentLevel->setCamera(mainCamera);
 
     while (gameCanRun && window.isOpen())
     {
@@ -67,6 +71,7 @@ void Game::run()
             }
             window.setView(mainCamera);
             currentLevel->update(window);
+            currentLevel->gui.draw();
             window.display();
         } catch (const GameRuntimeException &ex)
         {

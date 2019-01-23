@@ -1,4 +1,14 @@
-Projector 0.1.1 (in dev)
+Projector 0.1.2 (23 Jan 2019)
+---------------------------
+- LogManager has static flag for print data in terminal;
+- Every level can draw Grid and zoom;
+- Every level can read settings from .ini file;
+- Daedalus-level can create object on mouse click. Flag "setPositionByGrid" is responsible for ensuring that the object
+  is created on the grid.
+- DrawableEntity may not rendering;
+- Add moving and zooming for camera on Daedalus;
+
+Projector 0.1.1 (18 Jan 2019)
 ---------------------------
 - Base class of all entities - now is abstract;
 - Id's of entity generated in ctor;
