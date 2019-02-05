@@ -7,11 +7,54 @@
 //
 
 #include "ProjectorMessage.hpp"
-ProjectorMessage::ProjectorMessage(const std::string &desc, ProjectorMessage::Type type) : description{desc}, type{type}
-{
 
+ProjectorMessage::ProjectorMessage(const std::string &desc, ProjectorMessage::Type type)
+{
+    this->description = desc;
+    this->type = type;
 }
+
 ProjectorMessage::~ProjectorMessage()
 {
 
 }
+
+ProjectorMessage::ProjectorMessage(const std::exception &ex, ProjectorMessage::Type type)
+{
+    this->description = ex.what();
+    this->type = type;
+}
+
+const std::string ProjectorMessage::toString() const
+{
+    std::string strType = "";
+    switch (type)
+    {
+        case ProjectorMessage::Type::MESSAGE:
+        {
+            strType = "MESSAGE";
+            break;
+        }
+        case ProjectorMessage::Type::DEBUG:
+        {
+            strType = "DEBUG";
+            break;
+        }
+        case ProjectorMessage::Type::WARNING:
+        {
+            strType = "WARNING";
+            break;
+        }
+        case ProjectorMessage::Type::ERROR:
+        {
+            strType = "ERROR";
+            break;
+        }
+        default:
+        {
+            strType = "UNDEFINED";
+        }
+    }
+    return "[" + strType + "]: " + description;
+}
+

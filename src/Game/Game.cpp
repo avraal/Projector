@@ -22,7 +22,7 @@ Game::Game(const std::string &title) : title{title}
 void Game::prepare()
 {
     logManager->logging(ProjectorMessage("prepare", ProjectorMessage::Type::MESSAGE));
-    const std::string fileName = "Resources/Settings/test.ini";
+    const std::string fileName = "Resources/Settings/window.ini";
     logManager->logging(ProjectorMessage("load settings from " + fileName, ProjectorMessage::Type::DEBUG));
     gameSettings->loadSettings(fileName);
 
@@ -61,8 +61,8 @@ void Game::run()
             {
                 if (event.type == sf::Event::Closed)
                 {
-                    window.close();
                     gameCanRun = false;
+                    window.close();
                 }
 
                 currentLevel->mouseCallbacks(window, event);
@@ -75,11 +75,11 @@ void Game::run()
             window.display();
         } catch (const GameRuntimeException &ex)
         {
-            logManager->logging(ProjectorMessage(ex.what(), ProjectorMessage::Type::ERROR));
+            logManager->logging(ProjectorMessage(ex, ProjectorMessage::Type::ERROR));
             gameCanRun = false;
         } catch (const GameLoadResourcesException &ex)
         {
-            logManager->logging(ProjectorMessage(ex.what(), ProjectorMessage::Type::ERROR));
+            logManager->logging(ProjectorMessage(ex, ProjectorMessage::Type::ERROR));
         }
     }
 

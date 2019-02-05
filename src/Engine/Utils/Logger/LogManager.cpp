@@ -5,13 +5,15 @@
 // Created by andrew on 15.01.19.
 //
 
+#include <thread>
 #include "LogManager.hpp"
 
 bool LogManager::canPrintInTerminal = true;
+std::string LogManager::fileName = "";
 
 LogManager::LogManager(const std::string &sourceName) : sourceName{sourceName}
 {
-
+    canWriteToFile = false;
 }
 void LogManager::showLog(const ProjectorMessage::Type &type)
 {
@@ -36,4 +38,36 @@ void LogManager::logging(ProjectorMessage message)
     {
         std::cout << sourceName << '/' << message << std::endl;
     }
+
+    if (canWriteToFile)
+    {
+        std::thread saveThr(&LogManager::saveToFile, this, sourceName + "/" + message.toString());
+        saveThr.detach();
+//        saveToFile("", sourceName + "/" + message.toString());
+    }
+}
+
+bool LogManager::isCanWriteToFile() const
+{
+    return canWriteToFile;
+}
+
+void LogManager::setCanWriteToFile(bool canWriteToFile)
+{
+    this->canWriteToFile = canWriteToFile;
+}
+
+void LogManager::saveToFile(const std::string &message)
+{
+    try
+    {
+        toFile.open(LogManager::fileName, std::ios_base::app | std::ios_base::binary);
+        std::lock_guard<std::mutex> lock(writeMutex);
+        toFile << message << std::endl;
+        toFile.close();
+    } catch (const std::exception &ex)
+    {
+        std::cerr << ex.what() << std::endl;
+    }
+
 }

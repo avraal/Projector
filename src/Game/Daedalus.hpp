@@ -17,8 +17,11 @@ private:
     enum class EditorMode : int
     {
         ADD,
-        SELECT
+        SELECT,
+        MULTISELECT
     };
+
+    std::list<std::shared_ptr<DrawableEntity>> selectedEntities;
 
     inline friend std::ostream &operator<<(std::ostream &os, EditorMode mode)
     {
@@ -32,6 +35,11 @@ private:
             case EditorMode::SELECT:
             {
                 os << "SELECT";
+                break;
+            }
+            case EditorMode::MULTISELECT:
+            {
+                os << "MULTISELECT";
                 break;
             }
         }
@@ -53,6 +61,9 @@ private:
     //------------------------------UI------------------------------
 
     void initGui();
+    void selectEntity(std::shared_ptr<DrawableEntity> e);
+    void unselectedAllEntities();
+    inline bool onClickOnEntity(std::shared_ptr<DrawableEntity> e, const sf::Vector2f &mousePosition) const;
 public:
     Daedalus(const std::string &name);
     virtual ~Daedalus() override;

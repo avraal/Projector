@@ -23,42 +23,16 @@ public:
 private:
     std::string description;
 public:
-    explicit ProjectorMessage(const std::string &desc, Type type);
+    ProjectorMessage(const std::string &desc, Type type);
+    ProjectorMessage(const std::exception &ex, Type type);
     virtual ~ProjectorMessage();
     Type type;
 
+    const std::string toString() const;
+
     friend std::ostream &operator<<(std::ostream &os, ProjectorMessage message)
     {
-        std::string type = "";
-        switch (message.type)
-        {
-            case ProjectorMessage::Type::MESSAGE:
-            {
-                type = "MESSAGE";
-                break;
-            }
-            case ProjectorMessage::Type::DEBUG:
-            {
-                type = "DEBUG";
-                break;
-            }
-            case ProjectorMessage::Type::WARNING:
-            {
-                type = "WARNING";
-                break;
-            }
-            case ProjectorMessage::Type::ERROR:
-            {
-                type = "ERROR";
-                break;
-            }
-            default:
-            {
-                type = "UNDEFINED";
-            }
-        }
-        os << "[" << type << "]: ";
-        os << message.description;
+        os << message.toString();
         return os;
     }
 

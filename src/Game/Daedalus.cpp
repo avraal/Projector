@@ -16,12 +16,14 @@ Daedalus::Daedalus(const std::string &name) : Level(name)
     cellSize = {64.f, 64.f};
     currentEditorMode = EditorMode::ADD;
 }
+
 void Daedalus::update(sf::RenderWindow &window)
 {
     Level::update(window);
-    infoFPSLabel->setText("FPS: " + std::to_string((us_int)fps));
+    infoFPSLabel->setText("FPS: " + std::to_string((us_int) fps));
     infoObjCountLabel->setText("Object count: " + std::to_string(DrawableEntities.size()));
 }
+
 void Daedalus::prepare()
 {
     Level::prepare();
@@ -29,10 +31,12 @@ void Daedalus::prepare()
     initGui();
     drawGrid(10, 10, cellSize.x, cellSize.y);
 }
+
 void Daedalus::exitProcess()
 {
     Level::exitProcess();
 }
+
 void Daedalus::mouseCallbacks(sf::RenderWindow &window, sf::Event &event)
 {
     Level::mouseCallbacks(window, event);
@@ -48,6 +52,7 @@ void Daedalus::mouseCallbacks(sf::RenderWindow &window, sf::Event &event)
                 {
                     case EditorMode::ADD:
                     {
+                        unselectedAllEntities();
                         sf::Vector2f position{0.f, 0.f};
                         if (setPositionByGrid)
                         {
@@ -63,19 +68,28 @@ void Daedalus::mouseCallbacks(sf::RenderWindow &window, sf::Event &event)
                     }
                     case EditorMode::SELECT:
                     {
-                        bool clickCondition = false;
+                        unselectedAllEntities();
                         for (auto e : DrawableEntities)
                         {
-                            clickCondition =
-                                    mouseGlobalPosition.x > e->getPosition().x &&
-                                    mouseGlobalPosition.y > e->getPosition().y &&
-                                    mouseGlobalPosition.x < e->getPosition().x + e->getBoundingBox().width &&
-                                    mouseGlobalPosition.y < e->getPosition().y + e->getBoundingBox().height;
-
-                            if (clickCondition)
+                            if (onClickOnEntity(e, mouseGlobalPosition))
                             {
                                 std::cout << e->getName() << std::endl;
                                 std::cout << e->getPosition().x << " : " << e->getPosition().y << std::endl;
+                                selectEntity(e);
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                    case EditorMode::MULTISELECT:
+                    {
+                        for (auto e : DrawableEntities)
+                        {
+                            if (onClickOnEntity(e, mouseGlobalPosition))
+                            {
+                                std::cout << e->getName() << std::endl;
+                                std::cout << e->getPosition().x << " : " << e->getPosition().y << std::endl;
+                                selectEntity(e);
                             }
                         }
                         break;
@@ -85,6 +99,7 @@ void Daedalus::mouseCallbacks(sf::RenderWindow &window, sf::Event &event)
         }
     }
 }
+
 void Daedalus::keyboardCallbacks(sf::RenderWindow &window, sf::Event &event)
 {
     if (event.type == sf::Event::KeyPressed)
@@ -129,24 +144,30 @@ void Daedalus::keyboardCallbacks(sf::RenderWindow &window, sf::Event &event)
                 if (currentEditorMode == EditorMode::ADD)
                 {
                     currentEditorMode = EditorMode::SELECT;
+                } else if (currentEditorMode == EditorMode::SELECT)
+                {
+                    currentEditorMode = EditorMode::MULTISELECT;
                 } else
                 {
                     currentEditorMode = EditorMode::ADD;
                 }
-                std::cout << "currentEditroMode: " << currentEditorMode << std::endl;
+                std::cout << "currentEditorMode: " << currentEditorMode << std::endl;
                 break;
             }
         }
     }
 }
+
 void Daedalus::guiCallbacks(sf::Event &event)
 {
     Level::guiCallbacks(event);
 }
+
 Daedalus::~Daedalus()
 {
 
 }
+
 void Daedalus::initGui()
 {
     infoPanel = tgui::Panel::create({200, 100});
@@ -167,6 +188,7 @@ void Daedalus::initGui()
     infoPanel->add(infoObjCountLabel);
     gui.add(infoPanel);
 }
+
 void Daedalus::readSettings(const std::string &fileName)
 {
     auto reader = std::make_unique<INIReader>(fileName);
@@ -179,4 +201,28 @@ void Daedalus::readSettings(const std::string &fileName)
     infoTextColor.g = reader->GetInteger("infoPanel", "textColorG", 255);
     infoTextColor.b = reader->GetInteger("infoPanel", "textColorB", 255);
     infoTextMargin = reader->GetReal("infoPanel", "margin", 2);
+}
+
+bool Daedalus::onClickOnEntity(std::shared_ptr<DrawableEntity> e, const sf::Vector2f &mousePosition) const
+{
+    return
+            mousePosition.x > e->getPosition().x &&
+            mousePosition.y > e->getPosition().y &&
+            mousePosition.x < e->getPosition().x + e->getBoundingBox().width &&
+            mousePosition.y < e->getPosition().y + e->getBoundingBox().height;
+}
+
+void Daedalus::selectEntity(std::shared_ptr<DrawableEntity> e)
+{
+    e->setCanShowBounds(true);
+    selectedEntities.emplace_back(e);
+}
+
+void Daedalus::unselectedAllEntities()
+{
+    for (auto e : DrawableEntities)
+    {
+        e->setCanShowBounds(false);
+    }
+    selectedEntities.clear();
 }
